@@ -65,7 +65,6 @@ NULL
 #' @export
 require.or.install <- function(name,
                                install.fun = install.git,
-                               vars = c("$group" = group, "$name" = name),
                                ...,
                                load.fun = require,
                                force = FALSE)
