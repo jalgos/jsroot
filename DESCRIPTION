@@ -1,9 +1,13 @@
 Package: jsroot
-Title: What the Package Does (one line, title case)
+Title: Basic toolset to start a Jalgos project
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-Depends: R (>= 3.3.1)
-License: What license is it under?
+Authors@R: person("Sébastien", "Lamy de la Chapelle", email = "sebastien@jalgos.com", role = c("aut", "cre"))
+Description: Provides the user with a few functions that will allow you to start
+    a Jalgos project. For example it has the `install.git` function that allows you
+    to retrieve Jalgos projects
+Depends:
+    R (>= 3.3.1)
+License: Jalgos License
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 5.0.1
