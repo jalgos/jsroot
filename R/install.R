@@ -55,12 +55,9 @@ NULL
 
 #' @describeIn require.or.install Install specified package in case call to \code{require} fails.
 #' @param name Name of the package
-#' @param group Group to which the package belongs
-#' @param url Url of the package
-#' @param url.pattern Url pattern
 #' @param install.fun Package installation function to use
-#' @param vars Variables that appear in the url.pattern
 #' @param ... to be forwarded to install.fun
+#' @param load.fun how should the package be attached 'library' or 'require'
 #' @param force force install
 #' @export
 require.or.install <- function(name,
