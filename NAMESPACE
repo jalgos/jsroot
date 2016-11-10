@@ -2,5 +2,7 @@
 
 export(install.git)
 export(install.jalgos)
+export(replace.variables)
 export(require.or.install)
 export(require.or.install.dev)
+export(transform.filename)

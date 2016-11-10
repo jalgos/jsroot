@@ -1,3 +1,30 @@
+#' Templating filenames
+#'
+#' Tool to templatize filenames. Useful when needing a ressource that depends on the local configuration
+#' @param fn Template filename
+#' @aliases replace.variables
+#' @param subs named list that associates template variable and their values
+#' @examples transform.filename("$wd/$dperl/my.script.$scnum.pl", c("$wd" = ".", "$dperl" = "perl", "$scnum" = "10"))
+#' @details The names in subs are regex patterns. Any matching regex patterns will be replaced by the value. To avoid replacing parts of words it is advised to start the template variable by a character that is not found in the string to replace. '$%' can be used for example. \cr
+#' replace.variables is an alias.
+#' @export transform.filename
+transform.filename <- function(fn, subs = base.sub.list)
+{
+    if(is.null(subs)) return(fn)
+    subs[sapply(subs, is.null)] <- ""
+
+    NM <- sort(names(subs), decreasing = TRUE)
+    for(nm in NM)
+    {
+        pat <- gsub(x = nm, pattern = "\\$", replacement = "\\\\$")
+        fn <- as.vector(sapply(fn, {function(fn, repls) sapply(repls, function(repl) gsub(x = fn, pattern = pat, replacement = repl))}, repls = subs[[nm]]))
+    }
+    return(fn)
+}
+
+#' @rdname transform.filename
+#' @export
+replace.variables <- transform.filename
 
 #' Install Git
 #'
