@@ -91,10 +91,11 @@ require.or.install <- function(name,
                                install.fun = install.git,
                                ...,
                                load.fun = require,
+                               require.name = name,
                                force = FALSE)
 {
     if(force || !suppressWarnings(require(name, character = TRUE))) install.fun(name = name, ...)
-    load.fun(name, character = TRUE)
+    load.fun(require.name, character = TRUE)
 }
 
 file.package.pattern <- "/home/sebastien/Dev/util/jalgos-packages/%s"
