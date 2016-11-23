@@ -6,7 +6,7 @@
 \title{Install Missing Package}
 \usage{
 require.or.install(name, install.fun = install.git, ..., load.fun = require,
-  force = FALSE)
+  require.name = name, force = FALSE)
 
 require.or.install.dev(name, url.pattern = file.package.pattern, ...)
 }
