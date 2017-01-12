@@ -94,7 +94,7 @@ require.or.install <- function(name,
                                require.name = name,
                                force = FALSE)
 {
-    if(force || !suppressWarnings(require(require.name, character = TRUE))) install.fun(name = name, ...)
+    if(force || !suppressWarnings(require(require.name, character = TRUE))) install.fun(name, ...)
     load.fun(require.name, character = TRUE)
 }
 
