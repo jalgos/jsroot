@@ -2,6 +2,7 @@
 % Please edit documentation in R/install.R
 \name{require.or.install}
 \alias{require.or.install}
+\alias{require.or.install}
 \alias{require.or.install.dev}
 \title{Install Missing Package}
 \usage{
