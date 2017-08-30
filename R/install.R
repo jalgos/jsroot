@@ -88,8 +88,8 @@ NULL
 #' @param force force install
 #' @export
 require.or.install <- function(name,
-                               install.fun = install.git,
                                ...,
+                               install.fun = install.git,
                                load.fun = require,
                                require.name = name,
                                force = FALSE)
