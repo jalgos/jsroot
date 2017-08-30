@@ -111,3 +111,25 @@ require.or.install.dev <- function(name,
                        ...,
                        install.fun = devtools::install)
 }
+
+#' Dealing With Dependencies
+#'
+#' Elegantly deals with package dependencies of a project
+#' @param libpath Folder in which
+#' @param jspackages Jalgos packages. Must have this layout: list(group1 = c("jspack1", ...), group2 = ...)
+#' @param cran.packages CRAN packages
+#' @param ... To be forwarded to the require.or.install function
+#' @seealso require.or.install install.git
+#' @export
+dependencies <- function(libpath = 'lib',
+                         jspackages = list(),
+                         cran.packages = list(),
+                         ...)
+{
+    .libPaths(libpath)
+    
+    lapply(CRANpackages, jsroot::require.or.install, install.fun = install.packages, ...)
+    mapply(names(jspackages),
+           jspackages,
+           FUN = function(group, LP) do.call(jsroot::require.or.install, c(LP, group = group)))
+}
