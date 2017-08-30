@@ -131,5 +131,5 @@ dependencies <- function(libpath = 'lib',
     lapply(cran.packages, jsroot::require.or.install, install.fun = install.packages, ...)
     mapply(names(jspackages),
            jspackages,
-           FUN = function(group, LP) do.call(jsroot::require.or.install, c(LP, group = group)))
+           FUN = function(group, LPs) lapply(LPs, function(LP) do.call(jsroot::require.or.install, c(LP, group = group))))
 }
