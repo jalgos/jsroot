@@ -6,7 +6,7 @@
 \alias{require.or.install.dev}
 \title{Install Missing Package}
 \usage{
-require.or.install(name, install.fun = install.git, ..., load.fun = require,
+require.or.install(name, ..., install.fun = install.git, load.fun = require,
   require.name = name, force = FALSE)
 
 require.or.install.dev(name, url.pattern = file.package.pattern, ...)
@@ -14,9 +14,9 @@ require.or.install.dev(name, url.pattern = file.package.pattern, ...)
 \arguments{
 \item{name}{Name of the package}
 
-\item{install.fun}{Package installation function to use}
-
 \item{...}{to be forwarded to install.fun}
+
+\item{install.fun}{Package installation function to use}
 
 \item{load.fun}{how should the package be attached 'library' or 'require'}
 

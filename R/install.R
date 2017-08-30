@@ -116,7 +116,7 @@ require.or.install.dev <- function(name,
 #'
 #' Elegantly deals with package dependencies of a project
 #' @param libpath Folder in which
-#' @param jspackages Jalgos packages. Must have this layout: list(group1 = list("jspack1", ...), group2 = ...)
+#' @param jspackages Jalgos packages. Must have this layout: list(group1 = list(c("jspack1", [branch = "aaa"], ...)), group2 = ...)
 #' @param cran.packages CRAN packages
 #' @param ... To be forwarded to the require.or.install function
 #' @seealso require.or.install install.git
@@ -131,5 +131,5 @@ dependencies <- function(libpath = 'lib',
     lapply(cran.packages, jsroot::require.or.install, install.fun = install.packages, ...)
     mapply(names(jspackages),
            jspackages,
-           FUN = function(group, LPs) lapply(LPs, function(LP) do.call(jsroot::require.or.install, c(LP, group = group))))
+           FUN = function(group, LPs) lapply(LPs, function(LP) do.call(jsroot::require.or.install, c(LP, list(group = group)))))
 }
