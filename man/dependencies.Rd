@@ -10,7 +10,11 @@ dependencies(libpath = "lib", jspackages = list(), cran.packages = list(),
 \arguments{
 \item{libpath}{Folder in which}
 
-\item{jspackages}{Jalgos packages. Must have this layout: list(group1 = list(c("jspack1", [branch = "aaa"], ...)), group2 = ...)}
+\item{jspackages}{Jalgos packages. Must have this layout:\cr
+list(group1 = list(c("jspack1", \cr
+                                 [branch = "aaa"],\cr
+                                  ...)),\cr
+          group2 = ...)}
 
 \item{cran.packages}{CRAN packages}
 

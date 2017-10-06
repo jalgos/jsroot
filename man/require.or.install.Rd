@@ -7,7 +7,7 @@
 \title{Install Missing Package}
 \usage{
 require.or.install(name, ..., install.fun = install.git, load.fun = require,
-  require.name = name, force = FALSE)
+  require.name = name, force = FALSE, install.missing = TRUE)
 
 require.or.install.dev(name, url.pattern = file.package.pattern, ...)
 }
@@ -21,6 +21,8 @@ require.or.install.dev(name, url.pattern = file.package.pattern, ...)
 \item{load.fun}{how should the package be attached 'library' or 'require'}
 
 \item{force}{force install}
+
+\item{install.missing}{should we install missing packages}
 }
 \section{Functions}{
 \itemize{

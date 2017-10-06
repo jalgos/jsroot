@@ -86,15 +86,17 @@ NULL
 #' @param ... to be forwarded to install.fun
 #' @param load.fun how should the package be attached 'library' or 'require'
 #' @param force force install
+#' @param install.missing should we install missing packages
 #' @export
 require.or.install <- function(name,
                                ...,
                                install.fun = install.git,
                                load.fun = require,
                                require.name = name,
-                               force = FALSE)
+                               force = FALSE,
+                               install.missing = TRUE)
 {
-    if(force || !suppressWarnings(require(require.name, character = TRUE))) install.fun(name, ...)
+    if(install.missing && force || !suppressWarnings(require(require.name, character = TRUE))) install.fun(name, ...)
     load.fun(require.name, character = TRUE)
 }
 
@@ -116,7 +118,11 @@ require.or.install.dev <- function(name,
 #'
 #' Elegantly deals with package dependencies of a project
 #' @param libpath Folder in which
-#' @param jspackages Jalgos packages. Must have this layout: list(group1 = list(c("jspack1", [branch = "aaa"], ...)), group2 = ...)
+#' @param jspackages Jalgos packages. Must have this layout:\cr
+#' list(group1 = list(c("jspack1", \cr
+#'                                  [branch = "aaa"],\cr
+#'                                   ...)),\cr
+#'           group2 = ...)
 #' @param cran.packages CRAN packages
 #' @param ... To be forwarded to the require.or.install function
 #' @seealso require.or.install install.git
@@ -127,9 +133,13 @@ dependencies <- function(libpath = 'lib',
                          ...)
 {
     .libPaths(libpath)
-    
-    lapply(cran.packages, jsroot::require.or.install, install.fun = install.packages, ...)
+    lapply(cran.packages,
+           jsroot::require.or.install,
+           install.fun = install.packages,
+           ...)
     mapply(names(jspackages),
            jspackages,
-           FUN = function(group, LPs) lapply(LPs, function(LP) do.call(jsroot::require.or.install, c(LP, list(group = group)))))
+           FUN = function(group, LPs) lapply(LPs,
+                                             function(LP) do.call(jsroot::require.or.install,
+                                                                  c(LP, list(group = group)))))
 }
