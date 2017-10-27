@@ -114,6 +114,18 @@ require.or.install.dev <- function(name,
                        install.fun = devtools::install)
 }
 
+jsroot.env <- new.env()
+jsroot.env$reinstall <- FALSE
+
+#' Force Reinstall
+#'
+#' When this function is called all the dependencies package will be reinstall when dependencies is called again
+#' @export
+reinstall.next <- function()
+{
+    jsroot.env$reinstall <- TRUE
+}
+
 #' Dealing With Dependencies
 #'
 #' Elegantly deals with package dependencies of a project
@@ -130,16 +142,20 @@ require.or.install.dev <- function(name,
 dependencies <- function(libpath = 'lib',
                          jspackages = list(),
                          cran.packages = list(),
+                         force = jsroot.env$reinstall,
                          ...)
 {
+    dir.create(libpath, showWarnings = FALSE)
     .libPaths(libpath)
     lapply(cran.packages,
            jsroot::require.or.install,
            install.fun = install.packages,
+           force = force,
            ...)
     mapply(names(jspackages),
            jspackages,
            FUN = function(group, LPs) lapply(LPs,
                                              function(LP) do.call(jsroot::require.or.install,
-                                                                  c(LP, list(group = group)))))
+                                                                  c(LP, list(group = group, force = force)))))
+    jsroot.env$reinstall <- FALSE
 }

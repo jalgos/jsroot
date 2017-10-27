@@ -3,6 +3,7 @@
 export(dependencies)
 export(install.git)
 export(install.jalgos)
+export(reinstall.next)
 export(replace.variables)
 export(require.or.install)
 export(require.or.install.dev)
