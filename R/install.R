@@ -96,7 +96,7 @@ require.or.install <- function(name,
                                force = FALSE,
                                install.missing = TRUE)
 {
-    if(install.missing && force || !suppressWarnings(require(require.name, character = TRUE))) install.fun(name, ...)
+    if(install.missing && force || !suppressWarnings(require(require.name, character = TRUE))) install.fun(name, ..., force = force)
     load.fun(require.name, character = TRUE)
 }
 
@@ -115,15 +115,42 @@ require.or.install.dev <- function(name,
 }
 
 jsroot.env <- new.env()
-jsroot.env$reinstall <- FALSE
+jsroot.env$reinstall.cran <- FALSE
+jsroot.env$reinstall.github <- FALSE
+jsroot.env$reinstall.jalgos <- FALSE
 
-#' Force Reinstall
-#'
-#' When this function is called all the dependencies package will be reinstall when dependencies is called again
+#' @name force.reinstall
+#' @title Force Reinstall
+NULL
+
+#' @describeIn force.reinstall When this function is called all the dependencies package will be reinstall when dependencies is called again
 #' @export
 reinstall.next <- function()
 {
-    jsroot.env$reinstall <- TRUE
+    reinstall.cran.next()
+    reinstall.jalgos.next()
+    reinstall.github.next()
+}
+
+#' @describeIn force.reinstall Will reinstall only the cran packages the next time dependencies is called
+#' @export
+reinstall.cran.next <- function()
+{
+    jsroot.env$reinstall.cran <- TRUE
+}
+
+#' @describeIn force.reinstall Will reinstall only the jalgos packages the next time dependencies is called
+#' @export
+reinstall.jalgos.next <- function()
+{
+    jsroot.env$reinstall.jalgos <- TRUE    
+}
+
+#' @describeIn force.reinstall Will reinstall only the github packages the next time dependencies is called
+#' @export
+reinstall.github.next <- function()
+{
+    jsroot.env$reinstall.github <- TRUE    
 }
 
 #' Dealing With Dependencies
@@ -142,7 +169,10 @@ reinstall.next <- function()
 dependencies <- function(libpath = 'lib',
                          jspackages = list(),
                          cran.packages = list(),
-                         force = jsroot.env$reinstall,
+                         github.packages = list(),
+                         force.cran = jsroot.env$reinstall.cran,
+                         force.github = jsroot.env$reinstall.github,
+                         force.jalgos = jsroot.env$reinstall.jalgos,
                          ...)
 {
     dir.create(libpath, showWarnings = FALSE)
@@ -150,12 +180,28 @@ dependencies <- function(libpath = 'lib',
     lapply(cran.packages,
            jsroot::require.or.install,
            install.fun = install.packages,
-           force = force,
+           force = force.cran,
            ...)
+    jsroot.env$reinstall.cran <- FALSE
+
+    mapply(names(github.packages),
+           github.packages,
+           FUN = function(author, LPs) lapply(LPs,
+                                              function(LP) do.call(jsroot::require.or.install,
+                                                                   list(name = LP,
+                                                                        repo = paste(author, LP, sep = "/"),
+                                                                        install.fun = devtools::install_github,
+                                                                        force = force.github))))
+           
+    jsroot.env$reinstall.github <- FALSE
+        
+    
     mapply(names(jspackages),
            jspackages,
            FUN = function(group, LPs) lapply(LPs,
                                              function(LP) do.call(jsroot::require.or.install,
-                                                                  c(LP, list(group = group, force = force)))))
-    jsroot.env$reinstall <- FALSE
+                                                                  c(LP,
+                                                                    list(group = group,
+                                                                         force = force.jalgos)))))
+    jsroot.env$reinstall.jalgos <- FALSE
 }

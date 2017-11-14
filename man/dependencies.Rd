@@ -5,7 +5,9 @@
 \title{Dealing With Dependencies}
 \usage{
 dependencies(libpath = "lib", jspackages = list(), cran.packages = list(),
-  force = jsroot.env$reinstall, ...)
+  github.packages = list(), force.cran = jsroot.env$reinstall.cran,
+  force.github = jsroot.env$reinstall.github,
+  force.jalgos = jsroot.env$reinstall.jalgos, ...)
 }
 \arguments{
 \item{libpath}{Folder in which}

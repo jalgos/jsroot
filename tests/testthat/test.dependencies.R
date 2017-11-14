@@ -14,6 +14,8 @@ test_that("dependencies work",
                                            "data.table",
                                            "ggplot2",
                                            "bit"),
+                         github.packages = list("wrathematics" = c("getip"),
+                                                "RBigData" = c("remoter", "pbdCS")),
                          libpath = 'jsroot_lib_test')
 
 })
