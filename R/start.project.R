@@ -1,20 +1,20 @@
-#' Start project
+#' Initialize project
 #'
-#' Creates initial directories and files with data loading, libraries, .gitignore, symbolik link towards the data. Tob called from the project repository already created
+#' Initializes directories and files with data loading, libraries, .gitignore, symbolik link towards the data. To be called from the project repository already created
 #'
 #' @param data.path character indicating path to the project data
 #' @param logger.name character indicating the wanted name for the logger in the Logger Factory
 #' @param template.dir character indicating the directory name where the template files are located
 #'
 #' @export
-start.project <- function(data.path,
-                          logger.name,
-                          template.dir = "project_template/")
+init.jsproject <- function(data.path,
+                           logger.name,
+                           template.dir = "project_template/")
 {
     dir.create("lib")
     .libPaths("lib")
     jsroot::dependencies(libpath = "lib", jspackages = list("utils" = c("jconfig", "jlogger")))
-    logger <- JLoggerFactory("Start Project")
+    logger <- JLoggerFactory("Init Project")
     
     if("./code" %in% list.dirs())
     {
@@ -32,12 +32,12 @@ start.project <- function(data.path,
     
     logger.fun.name <- gsub(" ", ".", tolower(logger.name))
     
-    customize.file(path = "code/start.R",
+    customize.file(path = "code/init.R",
                    gs.src = c("logger.fun.name", "logger.name"),
                    gs.dest = c(logger.fun.name, logger.name))
 
 
-    customize.file(path = "code/load.data.R",
+    customize.file(path = "code/load_data.R",
                    gs.src = "logger.fun.name",
                    gs.dest = logger.fun.name)   
 
