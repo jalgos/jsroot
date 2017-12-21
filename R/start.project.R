@@ -41,6 +41,25 @@ start.project <- function(data.path,
                    gs.src = "logger.fun.name",
                    gs.dest = logger.fun.name)   
 
+    jlog.debug(logger, "Creating", ".gitignore" %c% BC)
+    git.ignore.lines <- c("lib/",
+                          "*~",
+                          "*#*",
+                          "*.#*",
+                          "credentials/",
+                          "*.tex",
+                          "!header.tex",
+                          "*.aux",
+                          "*.toc",
+                          ".RData",
+                          ".DS_Store",
+                          "*.rds",
+                          "report_data/",
+                          "logs/",
+                          ".Rhistory",
+                          "*.png")
+    cat(paste(git.ignore.lines, sep = "\n"), file = ".gitignore", sep = "\n")
+    
     jlog.debug(logger, "Creating empty directories", "data dashboard report_data" %c% BC)
     dir.create("data")
     dir.create("dashboard")
