@@ -1,4 +1,4 @@
-source("code/start.R")
+source("code/init.R")
 logger <- logger.fun.name.logger()
 
 if(!"NAME.TABLE" %in% ls())

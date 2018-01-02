@@ -38,8 +38,8 @@ init.jsproject <- function(data.path,
 
 
     customize.file(path = "code/load_data.R",
-                   gs.src = "logger.fun.name",
-                   gs.dest = logger.fun.name)   
+                   gs.src = c("logger.fun.name", "path/to/data"),
+                   gs.dest = c(logger.fun.name, data.path))   
 
     jlog.debug(logger, "Creating", ".gitignore" %c% BC)
     git.ignore.lines <- c("lib/",
