@@ -1,0 +1,31 @@
+---
+title: "Title"
+subtitle: "Subtitle"
+author: "[Jalgos](http://www.jalgos.com)"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+linkcolor: 'black'
+output:
+  pdf_document: 
+    keep_tex: true
+    fig_caption: yes
+    includes:
+      in_header: header.tex
+---
+
+```{r loadall, echo = FALSE, message = FALSE, warning = FALSE}
+require(knitr)
+load.rds.files("report_data/")
+```
+
+\clearpage
+
+# Introduction
+
+Introduction should summarize what the report's content.
+
+# Data exploration
+
+## Key figures
+
+## Plots
+

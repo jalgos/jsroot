@@ -1,0 +1,16 @@
+\usepackage{titling}
+\usepackage{float}
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+\pretitle{%
+  \begin{center}
+  \LARGE
+  \includegraphics[width=2cm,height=3cm]{www/jalgos.png}\\[\bigskipamount]
+  
+}
+\posttitle{\end{center}}
