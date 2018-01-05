@@ -9,12 +9,12 @@ output:
     keep_tex: true
     fig_caption: yes
     includes:
-      in_header: header.tex
+      in_header: ../header.tex
 ---
 
 ```{r loadall, echo = FALSE, message = FALSE, warning = FALSE}
 require(knitr)
-load.rds.files("report_data/")
+load.rds.files("../report_data/")
 ```
 
 \clearpage
@@ -22,10 +22,4 @@ load.rds.files("report_data/")
 # Introduction
 
 Introduction should summarize what the report's content.
-
-# Data exploration
-
-## Key figures
-
-## Plots
 
