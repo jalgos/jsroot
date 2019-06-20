@@ -188,8 +188,7 @@ dependencies <- function(libpath = 'lib',
            github.packages,
            FUN = function(author, LPs) lapply(LPs,
                                               function(LP) do.call(jsroot::require.or.install,
-                                                                   list(name = LP,
-                                                                        repo = paste(author, LP, sep = "/"),
+                                                                   list(repo = paste(author, LP, sep = "/"),
                                                                         install.fun = devtools::install_github,
                                                                         force = force.github))))
            
