@@ -1,22 +1,38 @@
 context("dependencies")
 
-test_that("dependencies work",
+test_that("cran.packages dependencies work",
 {
-    jsroot::dependencies(jspackages = list("utils" = c("jlogger",
-                                                       "jconfig",
-                                                       "jsutils",
-                                                       "jsmath",
-                                                       "jsstats",
-                                                       "jsviz",
-                                                       "hugesparse"),
-                                           "jalgos-dev"= c("TRF")),
-                         cran.packages = c("track",
-                                           "data.table",
-                                           "ggplot2",
-                                           "bit"),
-                         github.packages = list("wrathematics" = c("getip"),
-                                                "RBigData" = c("remoter", "pbdCS")),
-                         libpath = 'jsroot_lib_test')
-
+    expect_output(jsroot::dependencies(cran.packages = c("track", "uuid"),
+                                       libpath = 'jsroot_lib_test',
+                                       force.cran = TRUE),
+                  regexp = "downloaded")
 })
 
+test_that("cran.packages dependencies throw an error",
+{
+    expect_warning(jsroot::dependencies(cran.packages = c("unknown_package"),
+                                        libpath = 'jsroot_lib_test',
+                                        force.cran = TRUE,
+                                        quiet = TRUE))
+})
+
+
+test_that("jspackages dependencies work",
+{
+    jsroot::dependencies(jspackages = list("utils" = c("jlogger")),
+                         libpath = 'jsroot_lib_test',
+                         force.jalgos = TRUE,
+                         quiet = FALSE)
+
+    expect_equal(
+        packageDescription("jlogger")$Package,
+        "jlogger"
+    )
+})
+
+# test_that("github.packages dependencies work",
+# {
+#     # jsroot::dependencies(github.packages = list("wrathematics" = c("getip"),
+#     #                                             "RBigData" = c("remoter", "pbdCS")),
+#     #                      libpath = 'jsroot_lib_test')
+# })
