@@ -1,0 +1,29 @@
+Package: getip
+Type: Package
+Title: 'IP' Address 'Lookup'
+Version: 0.1-0
+Description: A micro-package for getting your 'IP' address, either the 
+    local/internal or the public/external one.  Currently only 'IPv4' addresses
+    are supported.
+License: BSD 2-clause License + file LICENSE
+Depends: R (>= 3.0.0)
+NeedsCompilation: yes
+ByteCompile: yes
+Authors@R: c(person("Drew", "Schmidt", role=c("aut", "cre"), email="wrathematics@gmail.com"),
+    person("Wei-Chen", "Chen", role="aut"))
+Maintainer: Drew Schmidt <wrathematics@gmail.com>
+RoxygenNote: 6.0.1
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: getip
+RemoteUsername: wrathematics
+RemoteRef: master
+RemoteSha: 6c87b1a41dd65ec5e3591cc5b90f605d9888354b
+GithubRepo: getip
+GithubUsername: wrathematics
+GithubRef: master
+GithubSHA1: 6c87b1a41dd65ec5e3591cc5b90f605d9888354b
+Packaged: 2019-08-31 15:08:08 UTC; haskell
+Author: Drew Schmidt [aut, cre],
+  Wei-Chen Chen [aut]
+Built: R 3.6.0; x86_64-apple-darwin15.6.0; 2019-08-31 15:08:11 UTC; unix
