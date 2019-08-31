@@ -3,10 +3,9 @@ context("dependencies")
 #' Removes jsroot_lib_test before each test to make sure each test is isolated
 clean_before <- function() {
     system("rm -Rf jsroot_lib_test")
-    system("ls -la")
 }
 
-test_that("cran.packages dependencies work",
+test_that("jsroot installs cran.packages successfully",
 {
     clean_before()
 
@@ -16,7 +15,7 @@ test_that("cran.packages dependencies work",
                   regexp = "downloaded")
 })
 
-test_that("cran.packages dependencies throw an error",
+test_that("jsroot throws an error for unknown cran.packages dependencies",
 {
     clean_before()
 
@@ -27,7 +26,7 @@ test_that("cran.packages dependencies throw an error",
 })
 
 
-test_that("jspackages dependencies work",
+test_that("jsroot installs jspackages successfully",
 {
     clean_before()
 
@@ -42,12 +41,25 @@ test_that("jspackages dependencies work",
                 "jlogger")
 })
 
-test_that("github.packages dependencies work",
+test_that("jsroot installs github.packages successfully",
 {
     clean_before()
 
     jsroot::dependencies(github.packages = list("tidyverse" = c("purrr")),
-                         libpath = 'jsroot_lib_test')
+                         libpath = 'jsroot_lib_test',
+                         force.github = TRUE)
 
     expect_equal(packageDescription("purrr")$Package, "purrr")
+    expect_true(packageDescription("purrr")$Version != "0.3.0")
+})
+
+test_that("jsroot installs github.packages with specific version successfully",
+{
+    clean_before()
+
+    jsroot::dependencies(github.packages = list("tidyverse" = c("purrr@v0.3.0")),
+                         libpath = 'jsroot_lib_test',
+                         force.github = TRUE)
+
+    expect_true(packageDescription("purrr")$Version == "0.3.0")
 })
