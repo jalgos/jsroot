@@ -149,14 +149,14 @@ reinstall.cran.next <- function()
 #' @export
 reinstall.jalgos.next <- function()
 {
-    jsroot.env$reinstall.jalgos <- TRUE    
+    jsroot.env$reinstall.jalgos <- TRUE
 }
 
 #' @describeIn force.reinstall Will reinstall only the github packages the next time dependencies is called
 #' @export
 reinstall.github.next <- function()
 {
-    jsroot.env$reinstall.github <- TRUE    
+    jsroot.env$reinstall.github <- TRUE
 }
 
 #' Dealing With Dependencies
@@ -198,10 +198,10 @@ dependencies <- function(libpath = 'lib',
                                                                         repo = paste(author, LP, sep = "/"),
                                                                         install.fun = function(name, ...) devtools::install_github(...),
                                                                         force = force.github))))
-           
+
     jsroot.env$reinstall.github <- FALSE
-        
-    
+
+
     mapply(names(jspackages),
            jspackages,
            FUN = function(group, LPs) lapply(LPs,
