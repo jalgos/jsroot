@@ -4,10 +4,19 @@
 \alias{dependencies}
 \title{Dealing With Dependencies}
 \usage{
-dependencies(libpath = "lib", jspackages = list(), cran.packages = list(),
-  github.packages = list(), force.cran = jsroot.env$reinstall.cran,
+dependencies(
+  libpath = "lib",
+  jspackages = list(),
+  cran.packages = list(),
+  github.packages = list(),
+  jslibs = list(),
+  force.cran = jsroot.env$reinstall.cran,
   force.github = jsroot.env$reinstall.github,
-  force.jalgos = jsroot.env$reinstall.jalgos, ...)
+  force.jalgos = jsroot.env$reinstall.jalgos,
+  force.jslibs = jsroot.env$reinstall.jslib,
+  force = FALSE,
+  ...
+)
 }
 \arguments{
 \item{libpath}{Folder in which}

@@ -5,6 +5,7 @@
 \alias{reinstall.next}
 \alias{reinstall.cran.next}
 \alias{reinstall.jalgos.next}
+\alias{reinstall.jslib.next}
 \alias{reinstall.github.next}
 \title{Force Reinstall}
 \usage{
@@ -14,7 +15,12 @@ reinstall.cran.next()
 
 reinstall.jalgos.next()
 
+reinstall.jslib.next()
+
 reinstall.github.next()
+}
+\description{
+Force Reinstall
 }
 \section{Functions}{
 \itemize{
@@ -23,6 +29,8 @@ reinstall.github.next()
 \item \code{reinstall.cran.next}: Will reinstall only the cran packages the next time dependencies is called
 
 \item \code{reinstall.jalgos.next}: Will reinstall only the jalgos packages the next time dependencies is called
+
+\item \code{reinstall.jslib.next}: Will reinstall only the jalgos libraires the next time dependencies is called
 
 \item \code{reinstall.github.next}: Will reinstall only the github packages the next time dependencies is called
 }}

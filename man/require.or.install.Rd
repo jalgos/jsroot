@@ -2,12 +2,18 @@
 % Please edit documentation in R/install.R
 \name{require.or.install}
 \alias{require.or.install}
-\alias{require.or.install}
 \alias{require.or.install.dev}
 \title{Install Missing Package}
 \usage{
-require.or.install(name, ..., install.fun = install.git, load.fun = require,
-  require.name = name, force = FALSE, install.missing = TRUE)
+require.or.install(
+  name,
+  ...,
+  install.fun = install.git,
+  load.fun = require,
+  require.name = name,
+  force = FALSE,
+  install.missing = TRUE
+)
 
 require.or.install.dev(name, url.pattern = file.package.pattern, ...)
 }
@@ -23,6 +29,9 @@ require.or.install.dev(name, url.pattern = file.package.pattern, ...)
 \item{force}{force install}
 
 \item{install.missing}{should we install missing packages}
+}
+\description{
+Install Missing Package
 }
 \section{Functions}{
 \itemize{
