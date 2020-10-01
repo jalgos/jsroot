@@ -1,6 +1,6 @@
 Package: jsroot
 Title: Basic toolset to start a Jalgos project
-Version: 1.0.1
+Version: 1.1.0
 Authors@R: person("Sébastien", "Lamy de la Chapelle", email = "sebastien@jalgos.com", role = c("aut", "cre"))
 Description: Provides the user with a few functions that will allow you to start
     a Jalgos project. For example it has the `install.git` function that allows you
@@ -10,5 +10,5 @@ Depends:
 License: Jalgos License
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.1
 Suggests: testthat
