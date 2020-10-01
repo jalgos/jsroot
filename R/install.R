@@ -321,17 +321,6 @@ dependencies <- function(libpath = 'lib',
                                                                         force = force.github || force))))
            
     jsroot.env$reinstall.github <- FALSE
-        
-    
-    mapply(names(jspackages),
-           jspackages,
-           FUN = function(group, LPs)
-        lapply(LPs,
-               function(LP) do.call(jsroot::require.or.install,
-                                    c(LP,
-                                      list(group = group,
-                                           force = force.jalgos || force)))))
-    jsroot.env$reinstall.slib <- FALSE
 
     mapply(names(jslibs),
            jslibs,
@@ -342,4 +331,15 @@ dependencies <- function(libpath = 'lib',
                                       list(group = group,
                                            force = force.jslibs || force)))))
     jsroot.env$reinstall.jalgos <- FALSE
+
+    mapply(names(jspackages),
+           jspackages,
+           FUN = function(group, LPs)
+        lapply(LPs,
+               function(LP) do.call(jsroot::require.or.install,
+                                    c(LP,
+                                      list(group = group,
+                                           force = force.jalgos || force)))))
+    jsroot.env$reinstall.jalgos <- FALSE
+
 }
