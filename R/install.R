@@ -330,7 +330,7 @@ dependencies <- function(libpath = 'lib',
                                     c(LP,
                                       list(group = group,
                                            force = force.jslibs || force)))))
-    jsroot.env$reinstall.jalgos <- FALSE
+    jsroot.env$reinstall.jslib <- FALSE
 
     mapply(names(jspackages),
            jspackages,
