@@ -1,0 +1,46 @@
+stages:
+  - prepare
+  - build
+  - check
+  - test
+  - release
+
+variables:
+  IMAGE: "reg.jalgos.ai/r-jsroot:$CI_PIPELINE_ID"
+
+prepare:
+  stage: prepare
+  script:
+    - docker build -t $IMAGE .
+    - docker push $IMAGE
+  only:
+    - branches
+
+build:
+  stage: build
+  script:
+    - docker run --rm $IMAGE Rscript ci/build.R
+  only:
+    - branches
+
+check:
+  stage: check
+  script:
+    - docker run --rm $IMAGE Rscript ci/check.R
+  only:
+    - branches
+
+test:
+  stage: test
+  script:
+    - docker run --rm $IMAGE Rscript ci/test.R
+  only:
+    - branches
+
+release:
+  stage: release
+  image: $IMAGE
+  script:
+    - ci/bump_version
+  only:
+    - master

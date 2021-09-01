@@ -37,12 +37,12 @@ make.jalgos.url <- function(name,
 git.command <- function(url,
                         package.loc,
                         branch = version,
-                        version,
+                        version = NULL,
                         ...)
 {
     subl <- list('%url' = url,
                  '%loc' = package.loc)
-    if(missing(branch) && missing(version))
+    if(is.null(branch) && is.null(version))
     {
         command <- "git clone %url %loc"
     }
@@ -208,10 +208,40 @@ require.or.install <- function(name,
                                load.fun = require,
                                require.name = name,
                                force = FALSE,
-                               install.missing = TRUE)
+                               install.missing = TRUE,
+                               version = branch,
+                               branch = NULL,
+                               libpath = 'lib')
 {
-    if(install.missing && force || !suppressWarnings(require(require.name, character = TRUE))) install.fun(name, ...)
-    load.fun(require.name, character = TRUE)
+    args <- list(...)
+    
+    if(!is.null(version))
+    {
+        #check if the package is already loaded
+        is.loaded <- paste("package:", name, sep = "") %in% search()
+        
+        #load the package to check the version
+        if(suppressWarnings(require(require.name, character = TRUE, lib.loc = libpath)))
+        {
+            if(packageVersion(require.name, lib.loc = libpath) == version)
+                return(TRUE)
+            #generate an error if new version and package already loaded before the function call 
+            if(is.loaded)
+                stop(paste("You have to unload",
+                           require.name,
+                           "before trying to install another version",
+                           sep = " "))
+            unloadNamespace(require.name)
+        }
+        args <- c(args, list(version = version))
+    }
+    
+    if(install.missing && force ||
+       !suppressWarnings(require(require.name, character = TRUE, lib.loc = libpath)) ||
+       !is.null(version))
+        do.call(install.fun, c(name, args))
+
+    load.fun(require.name, character = TRUE, lib.loc = libpath)
 }
 
 file.package.pattern <- "/home/sebastien/Dev/util/jalgos-packages/%s"
@@ -276,6 +306,30 @@ reinstall.github.next <- function()
     jsroot.env$reinstall.github <- TRUE    
 }
 
+#' Installing Jalgos Library
+#'
+#' Will use remotes::install_gitlab to install jalgos librairies with token authentification. Defaults to the GITLAB_PAT environment variable
+#' @param name Name of the project
+#' @param group Group to which the project belong in remote repo
+#' @param version Version of the project to install
+#' @param branch Branch of the project to install
+#' @param host GitLab API host to use
+#' @export
+install.gitlab <- function(name,
+                           group,
+                           version = branch,
+                           branch = NULL,
+                           host = "datasaiyan.com",
+                           ...)
+{
+    repo <- paste(group, name, sep = "/")
+    if(!is.null(version))
+        repo <- paste(repo, version, sep = "@")
+    remotes::install_gitlab(host = host,
+                            repo = repo,
+                            ...)
+}
+
 #' Dealing With Dependencies
 #'
 #' Elegantly deals with package dependencies of a project
@@ -299,15 +353,18 @@ dependencies <- function(libpath = 'lib',
                          force.jalgos = jsroot.env$reinstall.jalgos,
                          force.jslibs = jsroot.env$reinstall.jslib,
                          force = FALSE,
-                         ...)
+                         ...,
+                         install.jspackages.fun = install.git)
 {
     dir.create(libpath, showWarnings = FALSE)
     .libPaths(libpath)
     lapply(cran.packages,
-           jsroot::require.or.install,
-           install.fun = install.packages,
-           force = force.cran || force,
-           ...)
+           function(LP) do.call(jsroot::require.or.install,
+                                c(LP,
+                                  ...,
+                                  list(install.fun = remotes::install_version,
+                                       force = force.cran || force,
+                                       libpath = libpath))))
     jsroot.env$reinstall.cran <- FALSE
 
     mapply(names(github.packages),
@@ -315,11 +372,13 @@ dependencies <- function(libpath = 'lib',
            FUN = function(author, LPs)
         lapply(LPs,
                function(LP) do.call(jsroot::require.or.install,
-                                    list(name = LP,
-                                         repo = paste(author, LP, sep = "/"),
-                                         install.fun = function(name, ...) devtools::install_github(...),
-                                                                        force = force.github || force))))
-           
+                                    c(list(name = LP,
+                                           repo = paste(author, LP, sep = "/"),
+                                           install.fun = function(name, ...) devtools::install_github(...),
+                                           force = force.github || force,
+                                           libpath = libpath),
+                                      ...))))
+
     jsroot.env$reinstall.github <- FALSE
 
     mapply(names(jslibs),
@@ -338,8 +397,9 @@ dependencies <- function(libpath = 'lib',
         lapply(LPs,
                function(LP) do.call(jsroot::require.or.install,
                                     c(LP,
-                                      list(group = group,
-                                           force = force.jalgos || force)))))
+                                      list(install.fun = install.jspackages.fun, 
+                                           group = group,
+                                           force = force.jalgos || force,
+                                           libpath = libpath)))))
     jsroot.env$reinstall.jalgos <- FALSE
-
 }

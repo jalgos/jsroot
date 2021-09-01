@@ -12,7 +12,10 @@ require.or.install(
   load.fun = require,
   require.name = name,
   force = FALSE,
-  install.missing = TRUE
+  install.missing = TRUE,
+  version = branch,
+  branch = NULL,
+  libpath = "lib"
 )
 
 require.or.install.dev(name, url.pattern = file.package.pattern, ...)
