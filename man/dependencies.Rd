@@ -15,7 +15,8 @@ dependencies(
   force.jalgos = jsroot.env$reinstall.jalgos,
   force.jslibs = jsroot.env$reinstall.jslib,
   force = FALSE,
-  ...
+  ...,
+  install.jspackages.fun = install.git
 )
 }
 \arguments{
