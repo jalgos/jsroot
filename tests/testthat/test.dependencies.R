@@ -11,7 +11,7 @@ test_that("dependencies work",
                                               c("data.table", version = "1.13.0")),
                          github.packages = list("wrathematics" = c("getip"),
                                                 "RBigData" = c("remoter", "pbdCS")),
-                         upgrade = "never",
+                         upgrade = FALSE,
                          libpath = 'jsroot_lib_test')
 
     expect_true(packageVersion("data.table", lib.loc = 'jsroot_lib_test') == "1.13.0")
@@ -21,21 +21,13 @@ test_that("dependencies work",
                      function(pkg) expect_true(require(pkg,
                                                        character = TRUE))))
 
-    invisible(sapply(c("jsutils", "jlogger", "data.table"),
-                     unloadNamespace))
-    
     jsroot::dependencies(jspackages = list("utils" = list(c("jlogger", branch = "1.0.8"),
                                                           c("jsutils", version = "1.0.10"))),
                          cran.packages = list(c("data.table", version = "1.14.0")),
-                         upgrade = "never",
+                         upgrade = FALSE,
                          libpath = 'jsroot_lib_test')
 
     expect_true(packageVersion("data.table", lib.loc = 'jsroot_lib_test') == "1.14.0")
     expect_true(packageVersion("jsutils", lib.loc = 'jsroot_lib_test') == "1.0.10")
     expect_true(packageVersion("jlogger", lib.loc = 'jsroot_lib_test') == "1.0.8")
-
-    expect_error(jsroot::dependencies(cran.packages = list(c("data.table", version = "1.13.0")),
-                                      upgrade = "never",
-                                      libpath = 'jsroot_lib_test'),
-                 "You have to unload data.table .*")
 })

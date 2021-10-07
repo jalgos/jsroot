@@ -213,33 +213,19 @@ require.or.install <- function(name,
                                branch = NULL,
                                libpath = 'lib')
 {
-    args <- list(...)
-    
-    if(!is.null(version))
+    if(!is.null(version) && !is.na(numeric_version(version, strict = FALSE)))
     {
-        #check if the package is already loaded
-        is.loaded <- paste("package:", name, sep = "") %in% search()
-        
-        #load the package to check the version
         if(suppressWarnings(require(require.name, character = TRUE, lib.loc = libpath)))
         {
             if(packageVersion(require.name, lib.loc = libpath) == version)
                 return(TRUE)
-            #generate an error if new version and package already loaded before the function call 
-            if(is.loaded)
-                stop(paste("You have to unload",
-                           require.name,
-                           "before trying to install another version",
-                           sep = " "))
-            unloadNamespace(require.name)
         }
-        args <- c(args, list(version = version))
+        force <- TRUE 
     }
     
     if(install.missing && force ||
-       !suppressWarnings(require(require.name, character = TRUE, lib.loc = libpath)) ||
-       !is.null(version))
-        do.call(install.fun, c(name, args))
+       !suppressWarnings(require(require.name, character = TRUE, lib.loc = libpath)))
+        do.call(install.fun, list(name, version = version, ...))
 
     load.fun(require.name, character = TRUE, lib.loc = libpath)
 }
@@ -374,7 +360,7 @@ dependencies <- function(libpath = 'lib',
                function(LP) do.call(jsroot::require.or.install,
                                     c(list(name = LP,
                                            repo = paste(author, LP, sep = "/"),
-                                           install.fun = function(name, ...) devtools::install_github(...),
+                                           install.fun = function(name, ..., version = NULL) devtools::install_github(...),
                                            force = force.github || force,
                                            libpath = libpath),
                                       ...))))
