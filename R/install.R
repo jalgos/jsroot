@@ -357,16 +357,42 @@ dependencies <- function(libpath = 'lib',
            github.packages,
            FUN = function(author, LPs)
         lapply(LPs,
-               function(LP) do.call(jsroot::require.or.install,
-                                    c(list(name = LP,
-                                           repo = paste(author, LP, sep = "/"),
-                                           install.fun = function(name, ..., version = NULL) devtools::install_github(...),
-                                           force = force.github || force,
-                                           libpath = libpath),
-                                      ...))))
-
+               function(LP)
+        {
+            nmlp <- names(LP)
+            ref <- "HEAD"
+            if(!is.null(nmlp))
+            {
+                if("package" %in% nmlp)
+                    pk <- LP[["package"]]
+                else if("" %in% nmlp)
+                    pk <- LP[[which(nmlp == "")]]
+                else
+                    stop("Package not specified")
+                if("version" %in% nmlp)
+                    ref <- LP[["version"]]
+                else if("tag" %in% nmlp)
+                    ref <- LP[["tag"]]
+                else if("branch" %in% nmlp)
+                    ref <- LP[["branch"]]
+            }
+            else if(length(LP) == 1)
+                pk <- LP[1]
+            else
+                stop("Package specification should be named")
+            do.call(jsroot::require.or.install,
+                    c(list(name = pk,
+                           ref = ref,
+                           repo = paste(author, LP, sep = "/"),
+                           install.fun = function(name, ..., version = NULL) devtools::install_github(...),
+                           force = force.github || force,
+                           version = ref,
+                           libpath = libpath),
+                      ...))
+        }))
+        
     jsroot.env$reinstall.github <- FALSE
-
+    
     mapply(names(jslibs),
            jslibs,
            FUN = function(group, LPs)
