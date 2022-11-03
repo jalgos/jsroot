@@ -187,7 +187,7 @@ install.jalgos <- function(url,
                            lib.loc = "lib",
                            ...)
 {
-    withr::with_libpaths(new = lib.loc, devtools::install_git(url))
+    withr::with_libpaths(new = lib.loc, remotes::install_git(url))
 }
 
 #' @title Install Missing Package
@@ -384,7 +384,7 @@ dependencies <- function(libpath = 'lib',
                     c(list(name = pk,
                            ref = ref,
                            repo = paste(author, pk, sep = "/"),
-                           install.fun = function(name, ..., version = NULL) devtools::install_github(...),
+                           install.fun = function(name, ..., version = NULL) remotes::install_github(...),
                            force = force.github || force,
                            version = ref,
                            libpath = libpath),
