@@ -72,7 +72,7 @@ install.jslib <- function(url,
     system(command)
     setwd(pkg.loc)
     system("cmake .")
-    system("cmake --build .")
+    system("cmake --build . --parallel -j")
     system("cmake --install .")
 }
 
