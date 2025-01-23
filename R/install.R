@@ -70,8 +70,9 @@ install.jslib <- function(url,
     cur.loc <- getwd()
     on.exit({ setwd(cur.loc); system(sprintf("rm -Rf %s", pkg.loc))})
     system(command)
-    setwd(pkg.loc)
-    system("cmake .")
+    system("mkdir build")
+    system("cd build")
+    system("cmake ..")
     system("cmake --build . --parallel -j")
     system("cmake --install .")
 }
